@@ -1,19 +1,36 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Camera, Permissions } from 'expo' 
-import { Icon } from 'native-base'
+import { Camera, Permissions, FaceDetector } from 'expo'; 
+import { Icon } from 'native-base';
 
+var emotionDict = {
+  0: 'Angry',
+  1: 'Disgust',
+  2: 'Fear',
+  3: 'Happy',
+  4: 'Sad',
+  5: 'Surprise',
+  6: 'Neutral'
+}
 
 class CameraComponent extends Component {
   state = {
     hasCameraPermission: null,
-    type: Camera.Constants.Type.back
+    type: Camera.Constants.Type.back,
+    faces : [],
+    face: false
   }
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' })
   }
+  snap = () => {
+    if (this.camera) {
+      photo = this.camera.takePictureAsync();
+    }
+  }
+
   render() {
       const { hasCameraPermission } = this.state
 
@@ -27,7 +44,14 @@ class CameraComponent extends Component {
       else {
         return (
           <View style={{ flex: 1 }}>
-            <Camera style={{ flex: 1 }} type={this.state.type}>
+            <Camera style={{ flex: 1 }} 
+              type={this.state.type}
+              onFacesDetected={this.handleFacesDetected}
+              faceDetectorSettings={{
+                mode: FaceDetector.Constants.Mode.fast,
+                detectLandmarks: FaceDetector.Constants.Mode.none,
+                runClassifications: FaceDetector.Constants.Mode.none,
+              }}>
               <View
                 style={{
                   flex: 1,
@@ -55,6 +79,14 @@ class CameraComponent extends Component {
         )
       }
   }
+  handleFacesDetected = ({ faces }) => {
+    if(faces.length > 0){
+      this.setState({ faces });
+      this.snap();
+      console.debug('hi');
+    }
+  };
+  displayEmotion
 }
 
 export default CameraComponent;
