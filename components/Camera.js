@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Camera, Permissions, FaceDetector } from 'expo'; 
 import { Icon } from 'native-base';
-
-var emotionDict = {
-  0: 'Angry',
-  1: 'Disgust',
-  2: 'Fear',
-  3: 'Happy',
-  4: 'Sad',
-  5: 'Surprise',
-  6: 'Neutral'
-}
 
 class CameraComponent extends Component {
   state = {
@@ -57,9 +47,8 @@ class CameraComponent extends Component {
     formData.append('photo', {
       uri,
       name: `photo.${fileType}`,
-      type: `image/${fileType}`,
+      type: `image/${fileType}`
     });
-  
     let options = {
       method: 'POST',
       body: formData,
