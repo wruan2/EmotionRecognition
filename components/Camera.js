@@ -11,8 +11,8 @@ class CameraComponent extends Component {
     countDownStarted: false,
     pictureTaken: false,
     faces: [],
-    face: false,
-    uploading: true
+    uploading: true,
+    predictions: []
   }
 
   countDownTimer = null;
@@ -26,16 +26,20 @@ class CameraComponent extends Component {
     this.setState({
       pictureTaken: true,
     });
-    let response; 
     if (this.camera) {
-      let photo = await this.camera.takePictureAsync({base64: true});
+      let photo = await this.camera.takePictureAsync();
       try {
-        response = await this.uploadImage(photo.uri);
+        response = await this.uploadImage(photo.uri).then((response) => response.json())
+                  .then((responseData) => {
+                    this.setState ({
+                      predictions: responseData['prediction']
+                    });
+                  });
       }
       catch (error) {
-        console.log(response);
         console.log(error);
       }
+      console.log(this.state.predictions);
     }
   };
 
@@ -57,6 +61,8 @@ class CameraComponent extends Component {
         'Content-Type': 'multipart/form-data',
       },
     };
+  
+    return fetch('http://localhost:3000/upload', options);
   };
 
   render() {

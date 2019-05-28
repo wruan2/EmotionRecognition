@@ -12,6 +12,7 @@ class Modify {
             .grayscale()
             .write(`${this.path}`);
         });
+        return;
     }
 }
 module.exports = Modify; 

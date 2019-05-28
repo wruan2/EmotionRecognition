@@ -17,10 +17,11 @@ const upload = multer({
 
 app.use(express.static('./uploads'));
 
-app.post('/upload', upload.single('photo'), (req, res) => {
+app.post('/upload', upload.single('photo'), async function (req, res) {
   const mod = new modify(req.file.path).modify();
-  const load = new predict(req.file.path);
-  const prediction = load.predict(req.file.buffer);
+  const prediction = await new predict(req.file.path).predict();
+  console.clear();
+  return res.status(200).send({prediction});
 })
 
 let port = process.env.PORT || 3000;

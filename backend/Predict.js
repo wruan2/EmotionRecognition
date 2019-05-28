@@ -42,10 +42,10 @@ class Predict {
         // Loads models and makes prediction
         const model = await tf.loadLayersModel(handler);
         var prediction = model.predict([ts]);
-        prediction.print();
         prediction = prediction.reshape([7]);
-        prediction = tf.argMax(prediction);
-        prediction.print();
+        const val = prediction.dataSync();
+        const arr = Array.from(val);
+        return arr;
     }
 }
 module.exports = Predict;
