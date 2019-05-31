@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Camera, Permissions, FaceDetector } from 'expo'; 
 import { Icon } from 'native-base';
+import { createAppContainer } from 'react-navigation';
 
 class CameraComponent extends Component {
   state = {
@@ -39,7 +40,8 @@ class CameraComponent extends Component {
       catch (error) {
         console.log(error);
       }
-      console.log(this.state.predictions);
+      this.setState({pictureTaken: false});
+      this.props.navigation.navigate('Results', {photo: photo.uri, prediction: this.state.predictions});
     }
   };
 
@@ -62,7 +64,7 @@ class CameraComponent extends Component {
       },
     };
   
-    return fetch('http://localhost:3000/upload', options);
+    return fetch('http://ec2-3-17-6-179.us-east-2.compute.amazonaws.com:3000/upload', options);
   };
 
   render() {
@@ -95,6 +97,11 @@ class CameraComponent extends Component {
                     Capture in: {this.state.countDownSeconds}  
                   </Text>
                 </View>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', display: this.state.pictureTaken ? 'flex' : 'none' }}>
+                  <Text style={styles.countdown} >
+                    Photo Captured!
+                  </Text>
+                </View>
                 <View style={{ flex: 1, flexDirection: 'row',  alignSelf: 'center', position: 'absolute', bottom: '0%' }}>
                   <Icon
                     size= {80}
@@ -117,9 +124,9 @@ class CameraComponent extends Component {
   handleFacesDetected = ({ faces }) => {
     if (faces.length > 0){
       this.setState({
-        faceDetected: true,
+        faceDetected: true
       });
-      if (!this.state.faceDetected && !this.state.countDownStarted){
+      if (!this.state.faceDetected && !this.state.countDownStarted && !this.state.pictureTaken){
         this.initCountDown();
       }
     } 
@@ -159,7 +166,7 @@ class CameraComponent extends Component {
   } 
 }
 
-export default CameraComponent;
+export default createAppContainer (CameraComponent);
 
 const styles = StyleSheet.create({
   container: {
