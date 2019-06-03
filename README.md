@@ -12,9 +12,9 @@ The data used to train the neural network can be found here: https://drive.googl
 
 ## Demo
 
-![daenerys.jpg](https://drive.google.com/file/d/1-6QK__FojGTWm_YCF1sIVj0yNIZAqo0b/view?usp=sharing)
-![robert1.jpg](https://drive.google.com/file/d/1-2UFne3YmS-kg2087OmmtjD6_o26PXbh/view?usp=sharing)
-![robert2.jpg](https://drive.google.com/file/d/1-3tcWvJiEKeXfyP701SH9t_Ekxcqzm47/view?usp=sharing)
+![daenerys.jpg](https://i.imgur.com/WiC0E7x.jpg?3)
+![robert1.jpg](https://i.imgur.com/A9tPn1b.jpg?1)
+![robert2.jpg](https://i.imgur.com/QulnMEZ.jpg?1)
 
 ## Snack
 
